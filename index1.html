@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Portfolio — Anupam Mishra</title>
+  <meta name="description" content="Anupam Mishra — Prompt Engineer & HR Trainee. Portfolio with resume, projects, skills and certifications." />
+  <meta name="theme-color" content="#0b0f17" />
+
+  <!-- AOS -->
+  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+
+  <style>
+    /* ================= Root + Reset ================= */
+    :root{
+      --bg:#05060a;
+      --panel:#071122;
+      --panel-2:#081426;
+      --muted:#9aa4b2;
+      --text:#e6eef8;
+      --accent:#7c5cff;
+      --accent-2:#00e0ff;
+      --glass: rgba(255,255,255,0.03);
+      --radius:14px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;padding:0;background:linear-gradient(180deg,#04060a 0%,#07101a 50%,#08101a 100%);color:var(--text);font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;}
+    img{max-width:100%;display:block}
+    a{color:inherit;text-decoration:none}
+    ::selection{background:rgba(124,92,255,.18)}
+
+    /* ================= Layout helpers ================= */
+    .container{width:min(1100px,94vw);margin:0 auto;padding:0 12px}
+    .stack{display:grid;gap:20px}
+    .row{display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+    .muted{color:var(--muted)}
+    .small{font-size:.95rem;color:var(--muted)}
+
+    /* ================= Card ================= */
+    .card{
+      background:linear-gradient(180deg,var(--panel),var(--panel-2));
+      border:1px solid rgba(255,255,255,0.04);
+      border-radius:var(--radius);
+      padding:18px;
+      box-shadow:0 14px 40px rgba(0,0,0,.6);
+      transition:transform .35s cubic-bezier(.2,.9,.2,1), box-shadow .35s;
+      transform-origin:center;
+      will-change:transform;
+    }
+    .card:hover{transform:translateY(-10px) rotateX(2deg);box-shadow:0 30px 80px rgba(0,0,0,.7)}
+
+    /* ================= Navbar ================= */
+    nav.nav {
+      position:sticky;top:0;z-index:80;
+      backdrop-filter: blur(8px) saturate(1);
+      background:linear-gradient(180deg, rgba(4,6,9,0.6), rgba(4,6,9,0.25));
+      border-bottom:1px solid rgba(255,255,255,0.03);
+    }
+    .nav-inner{display:flex;gap:12px;align-items:center;justify-content:space-between;padding:14px 0}
+    .brand{display:flex;align-items:center;gap:12px}
+    .logo{width:36px;height:36px;border-radius:10px;background:conic-gradient(from 200deg,var(--accent),var(--accent-2));box-shadow:0 8px 30px rgba(124,92,255,.06)}
+    .brand-info{display:flex;flex-direction:column;line-height:1.2}
+    .brand-name{font-weight:700;font-size:1rem}
+    .brand-links{font-size:.85rem;color:var(--muted);margin-top:3px}
+    .brand-links a{color:var(--accent-2);opacity:.95}
+    .nav-links{display:flex;gap:10px;align-items:center}
+    .nav-links a{font-size:.92rem;padding:.5rem .8rem;border-radius:10px;color:var(--muted);border:1px solid transparent}
+    .nav-links a.primary{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#021026;border:none}
+    .nav-links a:hover{transform:translateY(-3px)}
+
+    /* ================= Hero / 3D canvas ================= */
+    .hero{
+      position:relative;overflow:hidden;padding:70px 0 40px;min-height:420px;display:flex;align-items:center;
+    }
+    #three-canvas{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;opacity:.85}
+    .hero-content{position:relative;z-index:2;max-width:900px}
+    .hero-title{font-size:clamp(28px,5vw,48px);line-height:1.03;margin:0 0 8px}
+    .hero-sub{color:var(--muted);margin:0 0 14px}
+
+    .hero-pill{display:inline-flex;align-items:center;gap:8px;padding:.45rem .8rem;border-radius:999px;background:linear-gradient(180deg,rgba(124,92,255,.08),rgba(124,92,255,.03));border:1px solid rgba(124,92,255,.03);font-size:.9rem}
+
+    /* ================= Sections ================= */
+    section{padding:40px 0}
+    h2{font-size:clamp(20px,2.6vw,28px);margin:0 0 12px}
+    .section-lead{color:var(--muted);margin-bottom:12px}
+
+    /* ================= Skills ================= */
+    .skills-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:14px}
+    .skill-card{grid-column:span 6}
+    @media(max-width:760px){.skill-card{grid-column:span 12}}
+    .skill-list{display:flex;flex-wrap:wrap;gap:8px}
+    .skill-chip{padding:.45rem .7rem;border-radius:10px;background:#071022;border:1px solid rgba(255,255,255,.03);font-size:.9rem}
+    .meter{height:10px;background:linear-gradient(180deg,rgba(255,255,255,.02),rgba(255,255,255,.01));border-radius:999px;overflow:hidden;border:1px solid rgba(255,255,255,.03)}
+    .meter > span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent-2));transition:width 1s ease}
+
+    /* ================= Timeline ================= */
+    .timeline{position:relative;padding-left:28px}
+    .timeline::before{content:"";position:absolute;left:10px;top:0;bottom:0;width:2px;background:linear-gradient(180deg,rgba(255,255,255,.04),transparent)}
+    .tl-item{position:relative;margin:18px 0}
+    .tl-dot{position:absolute;left:-1px;top:10px;width:10px;height:10px;border-radius:50%;background:linear-gradient(90deg,var(--accent),var(--accent-2));box-shadow:0 0 0 6px rgba(124,92,255,.06)}
+
+    /* ================= Projects ================= */
+    .project-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:14px}
+    .project{grid-column:span 12}
+    @media(min-width:840px){.project{grid-column:span 6}}
+    .tag{display:inline-block;padding:.22rem .5rem;border-radius:999px;background:#08142a;color:#bfe6ff;font-size:.82rem;border:1px solid rgba(255,255,255,.03)}
+
+    /* ================= Contact / Footer ================= */
+    .links-row{display:flex;gap:10px;flex-wrap:wrap}
+    .link-pill{padding:.5rem .9rem;border-radius:10px;border:1px solid rgba(255,255,255,.04);background:#071224;color:#cfeEFF}
+
+    footer{padding:28px 0;color:var(--muted);font-size:.95rem}
+
+    /* ================= small responsive ================= */
+    @media(max-width:720px){
+      .nav-inner{flex-direction:column;align-items:flex-start;gap:12px}
+      .hero{padding:44px 0}
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ================= NAVBAR ================= -->
+  <nav class="nav" role="navigation" aria-label="Main navigation">
+    <div class="container nav-inner" data-aos="fade-down" data-aos-duration="800">
+      <div class="brand" aria-hidden="false">
+        <div class="logo" aria-hidden="true"></div>
+        <div class="brand-info" role="group" aria-label="Brand">
+          <div class="brand-name">Portfolio • <span id="userName">Anupam Mishra</span></div>
+          <div class="brand-links" id="brandLinks">
+            <a id="navLinkedIn" href="#" target="_blank" rel="noopener">LinkedIn</a> •
+            <a id="navGitHub" href="#" target="_blank" rel="noopener">GitHub</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="nav-links" role="menubar" aria-label="Sections">
+        <a class="ghost" href="#about">About</a>
+        <a class="ghost" href="#skills">Skills</a>
+        <a class="ghost" href="#experience">Experience</a>
+        <a class="ghost" href="#projects">Projects</a>
+        <a class="ghost" href="#certs">Certifications</a>
+        <a class="ghost" href="#learnings">Learnings</a>
+        <a class="primary" href="#contact">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ================= HERO w/ 3D Canvas ================= -->
+  <header class="hero" role="banner">
+    <canvas id="three-canvas" aria-hidden="true"></canvas>
+
+    <div class="container hero-content" data-aos="fade-up" data-aos-duration="900">
+      <h1 class="hero-title">Hi, I’m <span id="heroName" class="gradient">Anupam Mishra</span></h1>
+      <p class="hero-sub muted">Prompt Engineer & HR Trainee — building practical automations, data-driven HR workflows, and AI-powered tools.</p>
+
+      <div class="row" style="margin-top:12px">
+        <span class="hero-pill">Resume-ready</span>
+        <span class="hero-pill">Futuristic UI</span>
+        <span class="hero-pill">Interactive 3D</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- ================= MAIN CONTENT ================= -->
+  <main class="container">
+
+    <!-- ABOUT -->
+    <section id="about" data-aos="fade-up">
+      <h2>About Me</h2>
+      <p class="section-lead">
+        I’m pursuing an MBA in <strong>Human Resource Management & International Business</strong> and hold a <strong>BCA</strong>.
+        I design prompts and small automations that make teams faster and insights clearer. I’m curious, reliable, and always shipping small improvements.
+      </p>
+
+      <div class="row" style="gap:10px">
+        <span class="skill-chip">MBA (HR & IB) — <span class="muted" id="eduMBA">Expected 2026</span></span>
+        <span class="skill-chip">BCA — <span class="muted">2019–2022</span></span>
+        <span class="skill-chip">Generative AI (Udemy) — <span class="muted">2024</span></span>
+        <span class="skill-chip">Equity Markets (IIMB) — <span class="muted">2024</span></span>
+      </div>
+    </section>
+
+    <!-- QUOTES -->
+    <section class="quotes" data-aos="fade-up">
+      <h2>Ideas I work by</h2>
+      <div class="card">
+        <div class="quote">“Your future is created by what you do today, not tomorrow.” <small class="muted">— Anonymous</small></div>
+        <div class="quote" style="margin-top:10px">“Strive not to be a success, but rather to be of value.” <small class="muted">— Albert Einstein</small></div>
+      </div>
+    </section>
+
+    <!-- SKILLS -->
+    <section id="skills" data-aos="fade-up">
+      <h2>Skills</h2>
+      <p class="section-lead">A blend of hard, soft, and tool-based skills — tuned for HR ops, data hygiene, and AI-assisted workflows.</p>
+
+      <div class="skills-grid">
+        <div class="card skill-card" data-tilt>
+          <h3>Hard Skills</h3>
+          <div id="hardSkills" class="skill-list"></div>
+
+          <div style="margin-top:12px">
+            <div class="small">Prompt Engineering</div>
+            <div class="meter"><span data-meter="82"></span></div>
+            <div class="small" style="margin-top:8px">HRIS Data Management</div>
+            <div class="meter"><span data-meter="78"></span></div>
+            <div class="small" style="margin-top:8px">TradingView Pine Script</div>
+            <div class="meter"><span data-meter="65"></span></div>
+          </div>
+        </div>
+
+        <div class="card skill-card" data-tilt>
+          <h3>Soft Skills</h3>
+          <div id="softSkills" class="skill-list"></div>
+
+          <div style="margin-top:12px">
+            <div class="small">Communication</div>
+            <div class="meter"><span data-meter="88"></span></div>
+            <div class="small" style="margin-top:8px">Problem-Solving</div>
+            <div class="meter"><span data-meter="82"></span></div>
+            <div class="small" style="margin-top:8px">Time Management</div>
+            <div class="meter"><span data-meter="80"></span></div>
+          </div>
+        </div>
+
+        <div class="card skill-card" data-tilt>
+          <h3>Tools & Tech</h3>
+          <div id="tools" class="skill-list"></div>
+          <p class="small muted" style="margin-top:10px">I keep lightweight stacks and document everything for easy handover.</p>
+        </div>
+
+        <div class="card skill-card" data-tilt>
+          <h3>Focus Areas</h3>
+          <div class="skill-list">
+            <span class="skill-chip">Onboarding & Induction</span>
+            <span class="skill-chip">Employee Engagement</span>
+            <span class="skill-chip">Data Accuracy Audits</span>
+            <span class="skill-chip">Process Documentation</span>
+            <span class="skill-chip">AI Output Evaluation</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- EXPERIENCE -->
+    <section id="experience" data-aos="fade-up">
+      <h2>Experience</h2>
+      <div class="card">
+        <div class="timeline">
+
+          <div class="tl-item">
+            <div class="tl-dot" aria-hidden="true"></div>
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:12px">
+              <strong>HR Trainee — IFFCO</strong>
+              <span class="small muted">Jul 2025 – Present • India</span>
+            </div>
+            <ul class="small">
+              <li>Supported onboarding & HRIS entry for <strong>20+ new hires</strong>; ensured <strong>100% compliance</strong>.</li>
+              <li>Assisted <strong>3+ engagement activities/month</strong>, lifting participation by ~<strong>15%</strong>.</li>
+              <li>Coordinated induction & trainings; reduced onboarding delays by ~<strong>10%</strong>.</li>
+              <li>Handled <strong>5–8 HR queries/day</strong> and shipped monthly HR reports with <strong>zero data errors</strong>.</li>
+            </ul>
+          </div>
+
+          <div class="tl-item" style="margin-top:18px">
+            <div class="tl-dot" aria-hidden="true"></div>
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:12px">
+              <strong>Prompt Engineer — Freelance</strong>
+              <span class="small muted">Aug 2025 – Present • Remote</span>
+            </div>
+            <ul class="small">
+              <li>Designed & tested prompts for AI models to improve relevance and accuracy of outputs.</li>
+              <li>Maintained iteration logs for prompt variations to track improvements and optimize results.</li>
+              <li>Iterated on <strong>50+ prompt variants</strong>, improving output quality by ~<strong>15–20%</strong>.</li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projects" data-aos="fade-up">
+      <h2>Projects</h2>
+      <div class="project-grid">
+        <article class="card project">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px">
+            <h3 style="margin:0">Custom AI-Powered Stock & Crypto Screener <span class="small muted">(Demo • 2025)</span></h3>
+            <div>
+              <span class="tag">TradingView</span>
+              <span class="tag">Pine Script</span>
+              <span class="tag">ChatGPT</span>
+              <span class="tag">Perplexity</span>
+              <span class="tag">Claude</span>
+            </div>
+          </div>
+          <ul class="small" style="margin-top:10px">
+            <li>Built a unified screener to avoid juggling paid tools for custom parameters and timely insights.</li>
+            <li>Integrated stock search, analyst-style fundamentals, buy/sell signals, heat map for indices, news feed, and top-4 crypto tracking.</li>
+            <li>Created demo and published code on GitHub to help traders analyze markets efficiently without subscription costs.</li>
+          </ul>
+          <div style="margin-top:12px" class="row">
+            <a id="projLink" class="nav-links btn" href="#" target="_blank" rel="noopener">View Code</a>
+            <a class="btn ghost" href="#contact">More Projects</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- CERTIFICATIONS -->
+    <section id="certs" data-aos="fade-up">
+      <h2>Certifications</h2>
+      <div class="card">
+        <ul class="small">
+          <li><strong>Generative AI Foundation</strong> — Udemy (2025)</li>
+          <li><strong>Stock Market Using AI</strong> — SpringPad (2025)</li>
+          <li><strong>Introduction to Equity Markets</strong> — IIM Bangalore (2024)</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- LEARNINGS -->
+    <section id="learnings" data-aos="fade-up">
+      <h2>Learning & Achievements</h2>
+      <div class="card">
+        <ul class="small">
+          <li>First Prize — Discipline Award (2022)</li>
+          <li>Consistent documentation habit; maintain clean iteration logs and lightweight SOPs.</li>
+          <li>Active learner — small daily reps over big sporadic pushes.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" data-aos="fade-up">
+      <h2>Links</h2>
+      <div class="card">
+        <div class="links-row">
+          <a class="link-pill" id="lnkLinkedIn" href="#" target="_blank" rel="noopener">LinkedIn</a>
+          <a class="link-pill" id="lnkGitHub" href="#" target="_blank" rel="noopener">GitHub</a>
+          <span class="link-pill" title="Hidden for privacy">📞 Phone: ••••-•••-••••</span>
+          <span class="link-pill" title="Hidden for privacy">✉️ Email: hidden@privacy</span>
+        </div>
+        <p class="small muted" style="margin-top:12px">Contact details are masked — edit PROFILE in the script to reveal them.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="container" data-aos="fade-up">
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:12px">
+      <div>© <span id="year"></span> <span id="footerName">Anupam Mishra</span>. Built with care & curiosity.</div>
+      <div class="small muted">Press <kbd>G</kbd> to jump to Projects • <kbd>T</kbd> to scroll Top</div>
+    </div>
+  </footer>
+
+  <!-- ================= External libs ================= -->
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+  <script src="https://unpkg.com/gsap@3.12.2/dist/gsap.min.js"></script>
+  <script src="https://unpkg.com/three@0.156.0/build/three.min.js"></script>
+
+  <script>
+    /*********************** PROFILE DATA ***********************/
+    const PROFILE = {
+      name: "Anupam Mishra",
+      roleLine: "Prompt Engineer & HR Trainee",
+      linkedin: "https://www.linkedin.com/in/anupammishra01/", // change if needed
+      github: "https://github.com/anu78600?tab=repositories",        // change if needed
+      projectCode: "https://github.com/anu78600/Resume/blob/main/Stock%20Analyzer%20Webpage/Screener.html",
+      mbaGraduation: "2026 (Expected)",
+      hardSkills: [
+        "Prompt Engineering", "HRIS Data Entry & Management", "Stock Market Analysis",
+        "Screener Development", "TradingView Pine Script", "AI Output Evaluation"
+      ],
+      softSkills: ["Communication", "Problem-Solving", "Time Management", "Adaptability"],
+      tools: ["ChatGPT", "Perplexity AI", "Claude AI", "TradingView", "GitHub", "MS Excel"]
+    };
+
+    /* =================== Bind profile text/links =================== */
+    document.getElementById('userName').textContent = PROFILE.name;
+    document.getElementById('heroName').textContent = PROFILE.name;
+    document.getElementById('footerName').textContent = PROFILE.name;
+    document.getElementById('year').textContent = new Date().getFullYear();
+    document.getElementById('navLinkedIn').href = PROFILE.linkedin;
+    document.getElementById('navGitHub').href = PROFILE.github;
+    document.getElementById('lnkLinkedIn').href = PROFILE.linkedin;
+    document.getElementById('lnkGitHub').href = PROFILE.github;
+    document.getElementById('projLink').href = PROFILE.projectCode;
+    const mbaEl = document.getElementById('eduMBA');
+    if(mbaEl) mbaEl.textContent = PROFILE.mbaGraduation;
+
+    function renderChips(id, arr){
+      const el = document.getElementById(id);
+      if(!el) return;
+      el.innerHTML = '';
+      arr.forEach(t=>{
+        const s = document.createElement('span');
+        s.className = 'skill-chip';
+        s.textContent = t;
+        el.appendChild(s);
+      });
+    }
+    renderChips('hardSkills', PROFILE.hardSkills);
+    renderChips('softSkills', PROFILE.softSkills);
+    renderChips('tools', PROFILE.tools);
+
+    /**************** AOS init ****************/
+    AOS.init({ once:true, duration:700, offset:80, easing:'ease-out-cubic' });
+
+    /**************** GSAP entrance animations ****************/
+    gsap.from(".brand-name", { y:-8, opacity:0, duration:0.7, ease:"power2.out" });
+    gsap.from(".brand-links", { y:-6, opacity:0, duration:0.6, delay:0.12 });
+    gsap.from(".hero-title", { y:18, opacity:0, duration:0.9, ease:"power3.out" });
+    gsap.from(".hero-sub", { y:18, opacity:0, duration:0.9, delay:0.08, ease:"power3.out" });
+
+    /**************** Skill bar animation on scroll (GSAP) ****************/
+    const meters = document.querySelectorAll('.meter > span');
+    const meterObserver = new IntersectionObserver((entries)=>{
+      entries.forEach(entry=>{
+        if(entry.isIntersecting){
+          const el = entry.target;
+          const target = el.getAttribute('data-meter') || '75';
+          gsap.to(el, { width: target + '%', duration: 1.1, ease:"power3.out" });
+          meterObserver.unobserve(el);
+        }
+      });
+    }, {threshold: 0.35});
+
+    meters.forEach(m=>meterObserver.observe(m));
+
+    /**************** Card tilt (mouse) - lightweight ****************/
+    document.querySelectorAll('[data-tilt]').forEach(card=>{
+      card.addEventListener('mousemove', (e)=>{
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const cx = rect.width/2, cy = rect.height/2;
+        const dx = (x - cx)/(rect.width/2);
+        const dy = (y - cy)/(rect.height/2);
+        const rx = dy * 6; // rotateX
+        const ry = dx * -8; // rotateY
+        card.style.transform = `perspective(800px) rotateX(${rx}deg) rotateY(${ry}deg) translateY(-6px)`;
+      });
+      card.addEventListener('mouseleave', ()=>{ card.style.transform=''; });
+    });
+
+    /**************** Smooth anchor fallback ****************/
+    document.querySelectorAll('a[href^="#"]').forEach(a=>{
+      a.addEventListener('click', e=>{
+        const href = a.getAttribute('href');
+        if(href.length>1){
+          e.preventDefault();
+          document.querySelector(href)?.scrollIntoView({behavior:'smooth', block:'start'});
+        }
+      });
+    });
+
+    /**************** Keyboard shortcuts ****************/
+    window.addEventListener('keydown', (e)=>{
+      if(e.key.toLowerCase()==='g') location.hash = '#projects';
+      if(e.key.toLowerCase()==='t') window.scrollTo({top:0,behavior:'smooth'});
+    });
+
+    /**************** Three.js futuristic scene ****************/
+    (function(){
+      const canvas = document.getElementById('three-canvas');
+      if(!canvas) return;
+
+      // renderer
+      const renderer = new THREE.WebGLRenderer({canvas, antialias:true, alpha:true});
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      const hero = document.querySelector('.hero');
+      const setSize = () => {
+        const w = window.innerWidth;
+        const h = Math.max(420, hero.clientHeight);
+        renderer.setSize(w, h);
+      };
+      setSize();
+
+      const scene = new THREE.Scene();
+      // camera
+      const camera = new THREE.PerspectiveCamera(45, window.innerWidth / Math.max(420, hero.clientHeight), 0.1, 2000);
+      camera.position.z = 160;
+
+      // lights
+      const amb = new THREE.AmbientLight(0xffffff, 0.45);
+      scene.add(amb);
+      const pLight = new THREE.PointLight(0x80aaff, 0.9, 600);
+      pLight.position.set(60, 60, 80);
+      scene.add(pLight);
+
+      // floating geometric group
+      const geomGroup = new THREE.Group();
+      scene.add(geomGroup);
+
+      const geometries = [
+        new THREE.IcosahedronGeometry(9, 1),
+        new THREE.TorusGeometry(10, 2.6, 24, 60),
+        new THREE.BoxGeometry(8, 8, 8),
+        new THREE.ConeGeometry(7, 14, 20)
+      ];
+
+      const mat1 = new THREE.MeshStandardMaterial({color:0x88b3ff, metalness:0.6, roughness:0.2, emissive:0x07293a, emissiveIntensity:0.1});
+      const mat2 = new THREE.MeshStandardMaterial({color:0x7c5cff, metalness:0.45, roughness:0.2, emissive:0x1b002b, emissiveIntensity:0.08});
+      const mats = [mat1, mat2];
+
+      for(let i=0;i<18;i++){
+        const geom = geometries[i % geometries.length];
+        const mesh = new THREE.Mesh(geom, mats[i % mats.length]);
+        mesh.position.x = (Math.random()-0.5)*280;
+        mesh.position.y = (Math.random()-0.5)*120;
+        mesh.position.z = (Math.random()-0.5)*200;
+        mesh.rotation.set(Math.random()*2, Math.random()*2, Math.random()*2);
+        const scale = 0.6 + Math.random()*1.3;
+        mesh.scale.setScalar(scale);
+        geomGroup.add(mesh);
+      }
+
+      // subtle particle field (points)
+      const pCount = 420;
+      const pGeo = new THREE.BufferGeometry();
+      const pPos = new Float32Array(pCount * 3);
+      for(let i=0;i<pCount;i++){
+        pPos[i*3+0] = (Math.random()-0.5)*800;
+        pPos[i*3+1] = (Math.random()-0.5)*300;
+        pPos[i*3+2] = (Math.random()-0.5)*500;
+      }
+      pGeo.setAttribute('position', new THREE.BufferAttribute(pPos, 3));
+      const pMat = new THREE.PointsMaterial({size:2.2, color:0x9bd0ff, transparent:true, opacity:0.9, blending:THREE.AdditiveBlending, depthWrite:false});
+      const points = new THREE.Points(pGeo, pMat);
+      scene.add(points);
+
+      // mouse parallax
+      let mouseX = 0, mouseY = 0;
+      window.addEventListener('mousemove', (ev)=>{
+        mouseX = (ev.clientX / window.innerWidth) - 0.5;
+        mouseY = (ev.clientY / (hero.clientHeight || window.innerHeight)) - 0.5;
+      });
+
+      // resize
+      window.addEventListener('resize', ()=>{
+        setSize();
+        camera.aspect = window.innerWidth / Math.max(420, hero.clientHeight);
+        camera.updateProjectionMatrix();
+      });
+
+      // animate
+      let t = 0;
+      function animate(){
+        t += 0.006;
+        // rotate group slow + respond to mouse
+        geomGroup.rotation.y = t * 0.25 + mouseX * 0.4;
+        geomGroup.rotation.x = Math.sin(t*0.3) * 0.06 + mouseY * 0.2;
+        geomGroup.position.y = Math.sin(t*0.6) * 4;
+
+        // mild particle drift
+        points.rotation.y = t * 0.02;
+        points.position.x = Math.sin(t*0.14) * 6;
+
+        renderer.render(scene, camera);
+        requestAnimationFrame(animate);
+      }
+      animate();
+    })();
+  </script>
+</body>
+</html>
