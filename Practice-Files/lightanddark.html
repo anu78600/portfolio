@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Portfolio — Anupam Mishra</title>
+  <meta name="description" content="Dark, modern, and inspiring resume portfolio showcasing skills, experience, projects, and certifications." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta property="og:title" content="Portfolio — Anupam Mishra" />
+  <meta property="og:description" content="Skills • Experience • Projects • Certifications • Learnings" />
+  <meta property="og:type" content="website" />
+
+  <style>
+    /* ============================================================
+       THEME VARIABLES (Dark default) + Light Pastel mode
+    ============================================================ */
+    :root{
+      --bg:#0b0f17;
+      --bg-grad-1:#090d14;
+      --bg-grad-2:#0b0f17;
+      --bg-grad-3:#0a0e15;
+      --panel:#111827;
+      --panel-2:#0f172a;
+      --muted:#9aa4b2;
+      --text:#e5e7eb;
+      --accent:#7c5cff;     /* primary accent */
+      --accent-2:#00e0ff;   /* secondary accent */
+      --ok:#2bd67b;
+      --warn:#ffc857;
+      --danger:#ff6b6b;
+      --ring: 0 0 0 3px rgba(124,92,255,.25);
+      --radius:16px;
+      --shadow:0 10px 30px rgba(0,0,0,.35);
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --sans: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+      --particle-glow: rgba(124,92,255,.7);
+      --particle-trail: rgba(124,92,255,.05);
+      --nav-blur-bg: linear-gradient(180deg,rgba(11,15,23,.75),rgba(11,15,23,.35));
+      --tag-fg:#c3d2ff;
+    }
+
+    /* Light Pastel theme */
+    html[data-theme="light"]{
+      --bg:#f6f7fb;
+      --bg-grad-1:#ffffff;
+      --bg-grad-2:#f7f9ff;
+      --bg-grad-3:#f2f6ff;
+      --panel:#ffffff;
+      --panel-2:#f7f9ff;
+      --muted:#5d6677;
+      --text:#1e2430;
+      --accent:#b28cff;     /* pastel lilac */
+      --accent-2:#84e3ef;   /* pastel mint */
+      --ok:#2bbf7a;
+      --warn:#f4c95d;
+      --danger:#ff6b6b;
+      --ring: 0 0 0 3px rgba(178,140,255,.25);
+      --shadow:0 10px 30px rgba(15,30,60,.12);
+      --particle-glow: rgba(178,140,255,.7);
+      --particle-trail: rgba(178,140,255,.06);
+      --nav-blur-bg: linear-gradient(180deg,rgba(255,255,255,.8),rgba(255,255,255,.5));
+      --tag-fg:#5a66a6;
+    }
+
+    /* ========== Reset & Base ========== */
+    *{box-sizing:border-box}
+    html,body{
+      margin:0;padding:0;
+      background:linear-gradient(180deg,var(--bg-grad-1) 0%, var(--bg-grad-2) 50%, var(--bg-grad-3) 100%);
+      color:var(--text);font-family:var(--sans);scroll-behavior:smooth
+    }
+    img{max-width:100%;display:block}
+    a{color:inherit;text-decoration:none}
+    button{cursor:pointer}
+    ::selection{background:rgba(124,92,255,.25)}
+
+    /* Canvas background (3D particles) */
+    #fx{
+      position:fixed;inset:0;z-index:-1;
+      background:transparent;
+    }
+
+    /* ========== Layout ========== */
+    .container{width:min(1100px,92vw);margin-inline:auto}
+    .stack{display:grid;gap:22px}
+    .row{display:flex;gap:14px;flex-wrap:wrap}
+    .pill{padding:.4rem .8rem;border-radius:999px;background:linear-gradient(180deg,rgba(124,92,255,.25),rgba(124,92,255,.10));border:1px solid rgba(124,92,255,.35)}
+    .card{
+      background:linear-gradient(180deg,var(--panel) 0%, var(--panel-2) 100%);
+      border:1px solid rgba(0,0,0,.08);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      padding:22px;
+      position:relative;overflow:hidden;isolation:isolate;
+    }
+    html[data-theme="light"] .card{border-color:rgba(0,0,0,.06)}
+    .card::after{
+      content:"";
+      position:absolute;inset:auto -20% -20% -20%;
+      height:120px;
+      background:radial-gradient(120px 50px at 20% 0%, rgba(124,92,255,.12), transparent 60%);
+      pointer-events:none;z-index:-1;filter:blur(12px);
+    }
+    html[data-theme="light"] .card::after{
+      background:radial-gradient(120px 50px at 20% 0%, rgba(178,140,255,.16), transparent 60%);
+    }
+
+    /* ========== Navbar ========== */
+    .nav{
+      position:sticky;top:0;z-index:50;
+      backdrop-filter:saturate(1.1) blur(10px);
+      background:var(--nav-blur-bg);
+      border-bottom:1px solid rgba(0,0,0,.08);
+    }
+    .nav-inner{display:flex;align-items:center;justify-content:space-between;padding:14px 0}
+    .brand{display:flex;align-items:center;gap:10px}
+    .brand .logo{width:28px;height:28px;border-radius:8px;background:conic-gradient(from 180deg,var(--accent),var(--accent-2));box-shadow:0 0 0 2px rgba(0,0,0,.06)}
+    .links{display:flex;gap:18px;flex-wrap:wrap}
+    .btn{
+      padding:.65rem .95rem;border-radius:12px;border:1px solid rgba(0,0,0,.08);
+      background:linear-gradient(180deg,rgba(124,92,255,.25),rgba(124,92,255,.1));
+      transition:transform .2s ease, box-shadow .2s ease;
+    }
+    .btn:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
+    .btn.ghost{background:transparent}
+    .kbd{font-family:var(--mono);font-size:.9rem;opacity:.8}
+
+    /* Brand info (name + small links) */
+    .brand-info {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.3;
+    }
+    .brand-name {
+      font-weight: 700;
+      letter-spacing: .3px;
+    }
+    .brand-links {
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+    .brand-links a {
+      color: var(--accent-2);
+    }
+    .brand-links a:hover {
+      text-decoration: underline;
+    }
+
+    /* Theme toggle */
+    .toggle{
+      display:inline-flex;align-items:center;gap:8px;
+      padding:.45rem .7rem;border-radius:12px;border:1px solid rgba(0,0,0,.1);
+      background:linear-gradient(180deg,rgba(255,255,255,.06),transparent);
+      user-select:none
+    }
+    .toggle .dot{
+      width:18px;height:18px;border-radius:999px;
+      background:conic-gradient(from 180deg,var(--accent),var(--accent-2));
+      box-shadow:0 0 0 2px rgba(0,0,0,.06);
+    }
+    .toggle span{font-size:.9rem;color:var(--muted)}
+
+    /* ========== Hero ========== */
+    .hero{padding:64px 0 24px}
+    .title{font-size:clamp(28px, 3.6vw, 46px);line-height:1.15;margin:0}
+    .subtitle{font-size:clamp(16px, 2.2vw, 20px);color:var(--muted);margin:8px 0 0}
+    .gradient{
+      background:linear-gradient(90deg,var(--accent), var(--accent-2));
+      -webkit-background-clip:text;background-clip:text;color:transparent
+    }
+    .badge{display:inline-flex;align-items:center;gap:8px;padding:.35rem .6rem;border:1px dashed rgba(0,0,0,.15);border-radius:10px;color:var(--muted)}
+    .badge .dot{width:8px;height:8px;border-radius:999px;background:linear-gradient(90deg,var(--accent),var(--accent-2))}
+
+    /* ========== Sections ========== */
+    section{padding:40px 0}
+    section h2{font-size:clamp(22px, 2.6vw, 30px);margin:0 0 14px}
+    .section-lead{color:var(--muted);margin:0 0 18px}
+
+    /* ========== Skills ========== */
+    .skills-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:14px}
+    .skill-card{grid-column:span 6}
+    .skill-chip{padding:.45rem .7rem;border-radius:10px;background:#0e1422;border:1px solid rgba(255,255,255,.06);display:inline-flex;align-items:center;gap:8px}
+    html[data-theme="light"] .skill-chip{background:#f3f6ff;border-color:rgba(15,30,60,.08)}
+    .meter{height:8px;background:#0d1220;border-radius:999px;overflow:hidden;border:1px solid rgba(255,255,255,.06)}
+    html[data-theme="light"] .meter{background:#e9efff;border-color:rgba(15,30,60,.08)}
+    .meter > span{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--accent-2))}
+    .skill-list{display:flex;flex-wrap:wrap;gap:8px}
+
+    /* ========== Timeline ========== */
+    .timeline{position:relative;padding-left:28px}
+    .timeline::before{content:"";position:absolute;left:10px;top:0;bottom:0;width:2px;background:linear-gradient(180deg,rgba(0,0,0,.12),transparent)}
+    .tl-item{position:relative;margin:16px 0}
+    .tl-item::before{content:"";position:absolute;left:-1px;top:10px;width:10px;height:10px;border-radius:50%;background:linear-gradient(90deg,var(--accent),var(--accent-2));box-shadow:0 0 0 4px rgba(124,92,255,.2)}
+    .tl-title{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+    .small{color:var(--muted);font-size:.95rem}
+
+    /* ========== Projects ========== */
+    .project-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:14px}
+    .project{grid-column:span 12}
+    @media(min-width:840px){.project{grid-column:span 6}}
+    .tag{font-size:.85rem;padding:.3rem .6rem;background:#0e1524;border:1px solid rgba(255,255,255,.06);border-radius:999px;color:var(--tag-fg)}
+    html[data-theme="light"] .tag{background:#f1f5ff;border-color:rgba(15,30,60,.08)}
+
+    /* ========== Quotes ========== */
+    .quotes{position:relative}
+    .quote{
+      font-size:clamp(18px,2.4vw,24px);line-height:1.4;
+      padding:18px;border-left:4px solid var(--accent);background:linear-gradient(180deg,rgba(124,92,255,.08),rgba(124,92,255,.02));
+      border-radius:12px;margin:8px 0;color:inherit
+    }
+    html[data-theme="light"] .quote{background:linear-gradient(180deg,rgba(178,140,255,.1),rgba(178,140,255,.04))}
+
+    /* ========== Footer ========== */
+    footer{padding:36px 0;color:var(--muted);font-size:.95rem}
+    .links-row{display:flex;gap:12px;flex-wrap:wrap}
+    .link-pill{padding:.5rem .8rem;border-radius:12px;border:1px solid rgba(0,0,0,.08);background:#0e1422;color:#e5e7eb}
+    html[data-theme="light"] .link-pill{background:#f5f7ff;color:#1e2430}
+
+    /* ========== Chips & Buttons ========== */
+    .chip{display:inline-flex;align-items:center;gap:8px;padding:.4rem .7rem;border-radius:10px;background:#0f1525;border:1px solid rgba(255,255,255,.06)}
+    html[data-theme="light"] .chip{background:#f2f6ff;border-color:rgba(15,30,60,.08)}
+
+    /* ========== Responsive ========== */
+    @media(max-width:720px){
+      .skill-card{grid-column:span 12}
+    }
+
+    /* ========== Subtle Entrances ========== */
+    .reveal{opacity:0;transform:translateY(12px);transition:opacity .6s ease, transform .6s ease}
+    .reveal.show{opacity:1;transform:none}
+
+    /* Accessibility focus */
+    a:focus, button:focus{outline:none;box-shadow:var(--ring)}
+  </style>
+</head>
+<body>
+  <!-- Canvas for 3D particles -->
+  <canvas id="fx" aria-hidden="true"></canvas>
+
+  <!-- ===== NAVBAR ===== -->
+  <div class="nav">
+    <div class="container nav-inner">
+      <div class="brand">
+        <div class="logo" aria-hidden="true"></div>
+        <div class="brand-info">
+          <span class="brand-name">Portfolio • <span class="gradient" id="userName">Anupam Mishra</span></span>
+          <div class="brand-links">
+            <a id="navLinkedIn" href="#" target="_blank" rel="noopener">LinkedIn</a> •
+            <a id="navGitHub" href="#" target="_blank" rel="noopener">GitHub</a>
+          </div>
+        </div>
+      </div>
+      <div class="links">
+        <a href="#about" class="btn ghost">About</a>
+        <a href="#skills" class="btn ghost">Skills</a>
+        <a href="#experience" class="btn ghost">Experience</a>
+        <a href="#projects" class="btn ghost">Projects</a>
+        <a href="#certs" class="btn ghost">Certifications</a>
+        <a href="#learnings" class="btn ghost">Learnings</a>
+        <a href="#contact" class="btn">Links</a>
+        <button id="themeToggle" class="toggle" aria-label="Toggle theme">
+          <div class="dot" aria-hidden="true"></div><span id="themeText">Dark</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== HERO ===== -->
+  <header class="hero container stack">
+    <span class="badge reveal"><span class="dot"></span> Warm • Insightful • Growth-oriented</span>
+    <h1 class="title reveal">Hi, I’m <span class="gradient" id="heroName">Anupam Mishra</span> — building value at the intersection of <em>HR + AI</em>.</h1>
+    <p class="subtitle reveal">
+      Prompt Engineer & HR Trainee focused on practical automation, clean data, and human-centred outcomes.
+      I love turning ambiguity into simple, useful tools.
+    </p>
+    <div class="row reveal">
+      <span class="pill">Resume-ready</span>
+      <span class="pill">Dark • Pastel • Responsive</span>
+      <span class="pill">No personal contacts displayed</span>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <!-- ===== ABOUT ===== -->
+    <section id="about" class="stack">
+      <h2 class="reveal">About Me</h2>
+      <p class="section-lead reveal">
+        I’m pursuing an MBA in <strong>Human Resource Management & International Business</strong> and hold a <strong>BCA</strong>.
+        I design prompts and small automations that make teams faster and insights clearer.
+        I’m curious, reliable, and always shipping small improvements.
+      </p>
+
+      <div class="row reveal">
+        <span class="chip">MBA (HR & IB) — <span class="muted" id="eduMBA">Expected 2026</span></span>
+        <span class="chip">BCA — <span class="muted">2019–2022</span></span>
+        <span class="chip">Generative AI (Udemy) — <span class="muted">2024</span></span>
+        <span class="chip">Equity Markets (IIMB) — <span class="muted">2024</span></span>
+      </div>
+    </section>
+
+    <!-- ===== QUOTES ===== -->
+    <section class="stack quotes" aria-label="Inspiring Quotes">
+      <h2 class="reveal">Ideas I work by</h2>
+      <div class="quote reveal">“Your future is created by what you do today, not tomorrow.” <small>— Anonymous</small></div>
+      <div class="quote reveal">“Strive not to be a success, but rather to be of value.” <small>— Albert Einstein</small></div>
+      <div class="quote reveal">“Dream big. Start small. Act now.” <small>— Anonymous</small></div>
+      <div class="quote reveal">“Make it simple. Make it useful. Make it shipped.” <small>— Workshop Note</small></div>
+    </section>
+
+    <!-- ===== SKILLS ===== -->
+    <section id="skills" class="stack">
+      <h2 class="reveal">Skills</h2>
+      <p class="section-lead reveal">A blend of hard, soft, and tool-based skills — tuned for HR ops, data hygiene, and AI-assisted workflows.</p>
+      <div class="skills-grid">
+
+        <!-- Hard Skills -->
+        <div class="card skill-card reveal">
+          <h3>Hard Skills</h3>
+          <div class="skill-list" id="hardSkills"></div>
+          <div class="stack" style="margin-top:10px">
+            <div>
+              <div class="small">Prompt Engineering</div>
+              <div class="meter"><span style="width:82%"></span></div>
+            </div>
+            <div>
+              <div class="small">HRIS Data Management</div>
+              <div class="meter"><span style="width:78%"></span></div>
+            </div>
+            <div>
+              <div class="small">TradingView Pine Script (basis for projects)</div>
+              <div class="meter"><span style="width:65%"></span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Soft Skills -->
+        <div class="card skill-card reveal">
+          <h3>Soft Skills</h3>
+          <div class="skill-list" id="softSkills"></div>
+          <div class="stack" style="margin-top:10px">
+            <div>
+              <div class="small">Communication</div>
+              <div class="meter"><span style="width:88%"></span></div>
+            </div>
+            <div>
+              <div class="small">Problem-Solving</div>
+              <div class="meter"><span style="width:82%"></span></div>
+            </div>
+            <div>
+              <div class="small">Time Management</div>
+              <div class="meter"><span style="width:80%"></span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tools -->
+        <div class="card skill-card reveal">
+          <h3>Tools & Tech</h3>
+          <div class="skill-list" id="tools"></div>
+          <p class="small muted" style="margin-top:10px">I keep lightweight stacks and document everything for easy handover.</p>
+        </div>
+
+        <!-- Focus Areas -->
+        <div class="card skill-card reveal">
+          <h3>Focus Areas</h3>
+          <div class="skill-list">
+            <span class="skill-chip">Onboarding & Induction</span>
+            <span class="skill-chip">Employee Engagement</span>
+            <span class="skill-chip">Data Accuracy Audits</span>
+            <span class="skill-chip">Process Documentation</span>
+            <span class="skill-chip">AI Output Evaluation</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== EXPERIENCE ===== -->
+    <section id="experience" class="stack">
+      <h2 class="reveal">Experience</h2>
+
+      <div class="card reveal">
+        <div class="timeline">
+          <!-- IFFCO -->
+          <div class="tl-item">
+            <div class="tl-title">
+              <strong>HR Trainee — IFFCO</strong>
+              <span class="small">Jul 2025 – Present • India</span>
+            </div>
+            <ul class="small">
+              <li>Supported onboarding & HRIS entry for <strong>20+ new hires</strong>; ensured <strong>100% compliance</strong>.</li>
+              <li>Assisted <strong>3+ engagement activities/month</strong>, lifting participation by ~<strong>15%</strong>.</li>
+              <li>Coordinated induction & trainings; reduced onboarding delays by ~<strong>10%</strong>.</li>
+              <li>Handled <strong>5–8 HR queries/day</strong> and shipped monthly HR reports with <strong>zero data errors</strong>.</li>
+            </ul>
+          </div>
+
+          <!-- Freelance Prompt -->
+          <div class="tl-item">
+            <div class="tl-title">
+              <strong>Prompt Engineer — Freelance</strong>
+              <span class="small">Aug 2025 – Present • Remote</span>
+            </div>
+            <ul class="small">
+              <li>Iterated on <strong>50+ prompt variants</strong>, improving output quality by ~<strong>15–20%</strong>.</li>
+              <li>Benchmarked across <strong>3 major AI tools</strong> and built a personal <strong>20+ page</strong> playbook.</li>
+              <li>Applied frameworks to HR, support, and e-learning use cases; documented reusable patterns.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== PROJECTS ===== -->
+    <section id="projects" class="stack">
+      <h2 class="reveal">Projects</h2>
+      <div class="project-grid">
+
+        <article class="card project reveal">
+          <div class="row" style="justify-content:space-between;align-items:flex-start">
+            <h3 style="margin:0">Custom AI-Powered Stock & Crypto Screener <span class="small muted"> (Demo • 2025)</span></h3>
+            <div class="row">
+              <span class="tag">TradingView</span>
+              <span class="tag">Pine Script</span>
+              <span class="tag">ChatGPT</span>
+              <span class="tag">Perplexity</span>
+              <span class="tag">Claude</span>
+            </div>
+          </div>
+          <ul class="small" style="margin-top:10px">
+            <li>Built a unified screener to avoid juggling paid tools for custom parameters and timely insights.</li>
+            <li>Integrated stock search, analyst-style fundamentals, buy/sell signals, heat map for indices, news feed, and top-4 crypto tracking.</li>
+            <li><strong>Released a demo on GitHub</strong>, helping traders analyze markets efficiently without subscription costs.</li>
+          </ul>
+          <div class="row">
+            <a id="projLink" class="btn" href="#" target="_blank" rel="noopener">View Code</a>
+            <a class="btn ghost" href="#contact">More Projects</a>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- ===== CERTIFICATIONS ===== -->
+    <section id="certs" class="stack">
+      <h2 class="reveal">Certifications</h2>
+      <div class="card reveal">
+        <ul class="small">
+          <li><strong>Generative AI Foundation</strong> — Udemy (2024)</li>
+          <li><strong>Introduction to Equity Markets</strong> — IIM Bangalore (2024)</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ===== LEARNINGS & ACHIEVEMENTS ===== -->
+    <section id="learnings" class="stack">
+      <h2 class="reveal">Learning & Achievements</h2>
+      <div class="card reveal">
+        <ul class="small">
+          <li>First Prize — Discipline Award (2022)</li>
+          <li>Consistent documentation habit; maintain clean iteration logs and lightweight SOPs.</li>
+          <li>Active learner — small daily reps over big sporadic pushes.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ===== CONTACT / LINKS (no personal details) ===== -->
+    <section id="contact" class="stack">
+      <h2 class="reveal">Links</h2>
+      <div class="card reveal">
+        <div class="row links-row">
+          <a class="link-pill" id="lnkLinkedIn" href="#" target="_blank" rel="noopener" aria-label="LinkedIn">LinkedIn</a>
+          <a class="link-pill" id="lnkGitHub" href="#" target="_blank" rel="noopener" aria-label="GitHub">GitHub</a>
+          <span class="link-pill" title="Hidden for privacy">📞 Phone: ••••-•••-••••</span>
+          <span class="link-pill" title="Hidden for privacy">✉️ Email: hidden@privacy</span>
+        </div>
+        <p class="small muted" style="margin-top:12px">
+          Your contact details are intentionally hidden. You can unmask them by editing this section in the code later.
+        </p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="container">
+    <div class="row" style="justify-content:space-between">
+      <div>© <span id="year"></span> <span id="footerName">Anupam Mishra</span>. Built with care and curiosity.</div>
+      <div class="kbd">Press <kbd>G</kbd> to jump to Projects • <kbd>T</kbd> to scroll Top</div>
+    </div>
+  </footer>
+
+  <script>
+    /* ============================================================
+       CONFIG — Edit this block with your real data.
+       Personal phone/email are masked by default (privacy).
+    ============================================================ */
+    const PROFILE = {
+      name: "Anupam Mishra",
+      roleLine: "Prompt Engineer & HR Trainee",
+      linkedin: "https://linkedin.com/in/anupam-mishra",  // <-- put your real link
+      github:   "https://github.com/your-github",          // <-- put your real link
+      projectCode: "https://github.com/your-github/custom-screener", // demo repo
+      mbaGraduation: "2026 (Expected)",
+      hardSkills: [
+        "Prompt Engineering", "HRIS Data Management", "Employee Onboarding",
+        "Employee Engagement Programs", "Data Accuracy Auditing",
+        "Process Documentation", "Stock Market Analysis",
+        "Screener Development", "TradingView Pine Script", "AI Output Evaluation"
+      ],
+      softSkills: [
+        "Communication", "Problem-Solving", "Time Management",
+        "Teamwork", "Adaptability", "Analytical Thinking", "Attention to Detail"
+      ],
+      tools: [
+        "MS Excel", "Google Workspace", "HRIS Platforms",
+        "ChatGPT", "Perplexity AI", "Claude AI", "TradingView", "GitHub"
+      ]
+    };
+
+    /* ============================================================
+       Helpers
+    ============================================================ */
+    const $ = (s, d=document) => d.querySelector(s);
+    const $$ = (s, d=document) => Array.from(d.querySelectorAll(s));
+
+    // Inject basic profile data
+    $("#userName").textContent = PROFILE.name;
+    $("#heroName").textContent = PROFILE.name;
+    $("#footerName").textContent = PROFILE.name;
+    $("#year").textContent = new Date().getFullYear();
+    $("#lnkLinkedIn").href = PROFILE.linkedin || "#";
+    $("#lnkGitHub").href   = PROFILE.github   || "#";
+    $("#projLink").href    = PROFILE.projectCode || "#";
+    $("#eduMBA").textContent = PROFILE.mbaGraduation;
+    // brand small links
+    $("#navLinkedIn").href = PROFILE.linkedin || "#";
+    $("#navGitHub").href = PROFILE.github || "#";
+
+    // Render skill chips
+    function renderChips(containerSel, items){
+      const c = $(containerSel);
+      c.innerHTML = "";
+      items.forEach(txt=>{
+        const el = document.createElement("span");
+        el.className = "skill-chip";
+        el.textContent = txt;
+        c.appendChild(el);
+      });
+    }
+    renderChips("#hardSkills", PROFILE.hardSkills);
+    renderChips("#softSkills", PROFILE.softSkills);
+    renderChips("#tools", PROFILE.tools);
+
+    // Reveal on scroll (IntersectionObserver)
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(entry=>{
+        if(entry.isIntersecting){
+          entry.target.classList.add("show");
+          io.unobserve(entry.target);
+        }
+      });
+    }, {threshold:.12});
+    $$(".reveal").forEach(el=>io.observe(el));
+
+    // Keyboard shortcuts
+    window.addEventListener("keydown", (e)=>{
+      if(e.key.toLowerCase()==="g"){ location.hash="#projects"; }
+      if(e.key.toLowerCase()==="t"){ window.scrollTo({top:0, behavior:"smooth"}); }
+    });
+
+    // Smooth anchor scrolling for navbar links
+    $$(".nav a[href^='#']").forEach(a=>{
+      a.addEventListener("click", (e)=>{
+        e.preventDefault();
+        const id = a.getAttribute("href");
+        document.querySelector(id)?.scrollIntoView({behavior:"smooth"});
+      });
+    });
+
+    /* ============================================================
+       THEME TOGGLE (Dark default; remembers choice)
+    ============================================================ */
+    const root = document.documentElement;
+    const themeToggle = $("#themeToggle");
+    const themeText = $("#themeText");
+
+    // Load remembered theme
+    const saved = localStorage.getItem("theme");
+    if(saved === "light"){ document.documentElement.setAttribute("data-theme","light"); themeText.textContent = "Light"; }
+
+    themeToggle.addEventListener("click", ()=>{
+      const cur = document.documentElement.getAttribute("data-theme");
+      const next = cur === "dark" ? "light" : "dark";
+      document.documentElement.setAttribute("data-theme", next);
+      localStorage.setItem("theme", next);
+      themeText.textContent = next === "dark" ? "Dark" : "Light";
+    });
+
+    /* ============================================================
+       3D BACKGROUND — subtle particles with parallax & theme glow
+    ============================================================ */
+    const canvas = document.getElementById('fx');
+    const ctx = canvas.getContext('2d');
+    let w, h, dpr;
+    let particles = [];
+    let tiltX = 0, tiltY = 0;
+    let targetTiltX = 0, targetTiltY = 0;
+
+    function resize(){
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      w = canvas.width = Math.floor(window.innerWidth * dpr);
+      h = canvas.height = Math.floor(window.innerHeight * dpr);
+      canvas.style.width = window.innerWidth + "px";
+      canvas.style.height = window.innerHeight + "px";
+      initParticles();
+    }
+
+    function initParticles(){
+      particles = [];
+      const count = Math.floor((w*h)/(140*140)); // density-based
+      for(let i=0;i<count;i++){
+        particles.push({
+          x: Math.random()*w,
+          y: Math.random()*h,
+          z: Math.random()*1 + 0.3, // depth factor
+          r: Math.random()*1.6 + 0.4,
+          vx: (Math.random()-.5)*0.05,
+          vy: (Math.random()-.5)*0.05
+        });
+      }
+    }
+
+    function draw(){
+      const glow = getComputedStyle(document.documentElement).getPropertyValue('--particle-glow').trim();
+      const trail = getComputedStyle(document.documentElement).getPropertyValue('--particle-trail').trim();
+      ctx.clearRect(0,0,w,h);
+
+      // Parallax tilt easing
+      tiltX += (targetTiltX - tiltX)*0.06;
+      tiltY += (targetTiltY - tiltY)*0.06;
+
+      // Trails
+      ctx.fillStyle = trail;
+      ctx.fillRect(0,0,w,h);
+
+      for(const p of particles){
+        // Move
+        p.x += p.vx * (1 + p.z);
+        p.y += p.vy * (1 + p.z);
+
+        // Wrap
+        if(p.x < 0) p.x = w; if(p.x > w) p.x = 0;
+        if(p.y < 0) p.y = h; if(p.y > h) p.y = 0;
+
+        // Parallax offset by tilt
+        const ox = p.x + tiltX * (10*p.z);
+        const oy = p.y + tiltY * (10*p.z);
+
+        // Draw
+        ctx.beginPath();
+        ctx.arc(ox, oy, p.r * dpr, 0, Math.PI*2);
+        ctx.fillStyle = glow;
+        ctx.fill();
+      }
+
+      // Connect near particles lightly
+      ctx.lineWidth = 0.6*dpr;
+      ctx.strokeStyle = glow.replace(/rgba?\(([^)]+)\)/,'rgba($1,0.25)');
+      for(let i=0;i<particles.length;i++){
+        for(let j=i+1;j<i+12 && j<particles.length;j++){
+          const a = particles[i], b = particles[j];
+          const dx = a.x - b.x, dy = a.y - b.y;
+          const dist = Math.hypot(dx, dy);
+          if(dist < 90*dpr){
+            ctx.globalAlpha = 1 - dist/(90*dpr);
+            ctx.beginPath();
+            ctx.moveTo(a.x + tiltX*(8*a.z), a.y + tiltY*(8*a.z));
+            ctx.lineTo(b.x + tiltX*(8*b.z), b.y + tiltY*(8*b.z));
+            ctx.stroke();
+          }
+        }
+      }
+      ctx.globalAlpha = 1;
+
+      requestAnimationFrame(draw);
+    }
+
+    window.addEventListener('resize', resize);
+    window.addEventListener('mousemove', (e)=>{
+      const x = (e.clientX / window.innerWidth) - 0.5;
+      const y = (e.clientY / window.innerHeight) - 0.5;
+      targetTiltX = x * 2;  // reduce for calmer motion
+      targetTiltY = y * 2;
+    });
+
+    resize();
+    draw();
+  </script>
+</body>
+</html>

@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Portfolio — Anupam Mishra</title>
+  <meta name="description" content="Dark, modern, and inspiring resume portfolio showcasing skills, experience, projects, and certifications." />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta property="og:title" content="Portfolio — Anupam Mishra" />
+  <meta property="og:description" content="Skills • Experience • Projects • Certifications • Learnings" />
+  <meta property="og:type" content="website" />
+
+  <!-- AOS (scroll animations) -->
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css"/>
+
+  <style>
+    /* ================= Root Themes & Reset ================= */
+    :root{
+      /* Dark (default) */
+      --bg:#0b0f17;
+      --bg-2:#090d14;
+      --panel:#111827;
+      --panel-2:#0f172a;
+      --muted:#9aa4b2;
+      --text:#e5e7eb;
+      --accent:#7c5cff;     /* primary accent (gradient start) */
+      --accent-2:#00e0ff;   /* secondary accent (gradient end) */
+      --ok:#2bd67b;
+      --warn:#ffc857;
+      --danger:#ff6b6b;
+      --ring: 0 0 0 3px rgba(124,92,255,.25);
+      --radius:16px;
+      --shadow:0 10px 30px rgba(0,0,0,.35);
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --sans: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+
+      --transition-fast: .25s;
+      --transition-med: .6s;
+    }
+    /* Light / Pastel theme overrides */
+    html[data-theme="light"]{
+      --bg:#f7f9fc;
+      --bg-2:#ffffff;
+      --panel:#ffffff;
+      --panel-2:#f2f6ff;
+      --muted:#5e6a7a;
+      --text:#1a1f29;
+      /* Pastel teal -> blue for name and accents in light mode */
+      --accent:#38dacd;
+      --accent-2:#6aa8ff;
+      --shadow: 0 10px 30px rgba(24, 40, 72, .08);
+      --ring: 0 0 0 3px rgba(56,218,205,.25);
+    }
+
+    *{box-sizing:border-box}
+    html,body{
+      margin:0;padding:0;
+      background:linear-gradient(180deg,var(--bg-2) 0%, var(--bg) 50%, var(--bg-2) 100%);
+      color:var(--text);font-family:var(--sans);
+      scroll-behavior:smooth;
+      transition: background var(--transition-med) ease, color var(--transition-med) ease;
+    }
+    img{max-width:100%;display:block}
+    a{color:inherit;text-decoration:none}
+    button{cursor:pointer}
+    ::selection{background:rgba(124,92,255,.35)}
+    html[data-theme="light"] ::selection{background:rgba(56,218,205,.35)}
+
+    /* ================= Layout ================= */
+    .container{width:min(1100px,92vw);margin-inline:auto}
+    .stack{display:grid;gap:22px}
+    .row{display:flex;gap:14px;flex-wrap:wrap}
+    .pill{
+      padding:.4rem .8rem;border-radius:999px;
+      background:linear-gradient(180deg,rgba(124,92,255,.25),rgba(124,92,255,.10));
+      border:1px solid rgba(124,92,255,.35);color:#fff
+    }
+    html[data-theme="light"] .pill{
+      color:var(--text);
+      background:linear-gradient(180deg,rgba(56,218,205,.20),rgba(56,218,205,.08));
+      border-color:rgba(56,218,205,.35);
+    }
+    .card{
+      background:linear-gradient(180deg,var(--panel) 0%, var(--panel-2) 100%);
+      border:1px solid rgba(0,0,0,.06);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      padding:22px;position:relative;overflow:hidden;isolation:isolate;
+      transition: background var(--transition-med) ease, border-color var(--transition-med) ease, box-shadow var(--transition-med) ease;
+    }
+    html[data-theme="light"] .card{border-color:rgba(24,40,72,.08)}
+    .card::after{
+      content:"";
+      position:absolute;inset:auto -20% -20% -20%;height:120px;
+      background:radial-gradient(120px 50px at 20% 0%, rgba(124,92,255,.12), transparent 60%);
+      pointer-events:none;z-index:-1;filter:blur(12px);
+      transition: opacity var(--transition-med) ease;
+    }
+    html[data-theme="light"] .card::after{
+      background:radial-gradient(120px 50px at 20% 0%, rgba(56,218,205,.10), transparent 60%);
+      opacity:.8;
+    }
+
+    /* ================= Navbar ================= */
+    .nav{
+      position:sticky;top:0;z-index:50;
+      backdrop-filter:saturate(1.1) blur(10px);
+      background:linear-gradient(180deg,rgba(11,15,23,.75),rgba(11,15,23,.35));
+      border-bottom:1px solid rgba(255,255,255,.06);
+      transition: background var(--transition-med) ease, border-color var(--transition-med) ease;
+    }
+    html[data-theme="light"] .nav{
+      background:linear-gradient(180deg,rgba(247,249,252,.85),rgba(247,249,252,.55));
+      border-bottom:1px solid rgba(24,40,72,.08);
+    }
+    .nav-inner{display:flex;align-items:center;justify-content:space-between;padding:14px 0}
+    .brand{display:flex;align-items:center;gap:10px}
+    .brand .logo{width:28px;height:28px;border-radius:8px;background:conic-gradient(from 180deg,var(--accent),var(--accent-2));box-shadow:0 0 0 2px rgba(255,255,255,.06)}
+    .nav a{opacity:.9;transition:opacity var(--transition-fast) ease}
+    .nav a:hover{opacity:1}
+    .nav .links{display:flex;gap:18px;flex-wrap:wrap}
+    .btn{
+      padding:.65rem .95rem;border-radius:12px;border:1px solid rgba(255,255,255,.08);
+      background:linear-gradient(180deg,rgba(124,92,255,.25),rgba(124,92,255,.1));
+      transition:transform .2s ease, box-shadow .2s ease, background var(--transition-med) ease, border-color var(--transition-med) ease;
+    }
+    .btn:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
+    .btn.ghost{background:transparent}
+    html[data-theme="light"] .btn{
+      border-color:rgba(24,40,72,.10);
+      background:linear-gradient(180deg,rgba(56,218,205,.18),rgba(56,218,205,.06));
+    }
+    .kbd{font-family:var(--mono);font-size:.9rem;opacity:.8}
+
+    /* Brand info (two small links under name) */
+    .brand-info {display:flex;flex-direction:column;line-height:1.3}
+    .brand-name {font-weight:700;letter-spacing:.3px}
+    .brand-links {font-size:.85rem;color:var(--muted)}
+    .brand-links a {color: var(--accent-2)}
+    .brand-links a:hover {text-decoration: underline}
+
+    /* ================= Hero ================= */
+    .hero{padding:64px 0 24px}
+    .title{font-size:clamp(28px, 3.6vw, 46px);line-height:1.15;margin:0;transition:color var(--transition-med) ease}
+    .subtitle{font-size:clamp(16px, 2.2vw, 20px);color:var(--muted);margin:8px 0 0}
+    .gradient{
+      background:linear-gradient(90deg,var(--accent), var(--accent-2));
+      -webkit-background-clip:text;background-clip:text;color:transparent
+    }
+    .badge{display:inline-flex;align-items:center;gap:8px;padding:.35rem .6rem;border:1px dashed rgba(255,255,255,.15);border-radius:10px;color:var(--muted)}
+    .badge .dot{width:8px;height:8px;border-radius:999px;background:linear-gradient(90deg,var(--accent),var(--accent-2))}
+    html[data-theme="light"] .badge{border-color:rgba(24,40,72,.15)}
+
+    /* ================= Sections ================= */
+    section{padding:40px 0}
+    section h2{font-size:clamp(22px, 2.6vw, 30px);margin:0 0 14px}
+    .section-lead{color:var(--muted);margin:0 0 18px}
+
+    /* ================= Skills ================= */
+    .skills-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:14px}
+    .skill-card{grid-column:span 6}
+    .skill-chip{padding:.45rem .7rem;border-radius:10px;background:#0e1422;border:1px solid rgba(255,255,255,.06);display:inline-flex;align-items:center;gap:8px;transition:background var(--transition-med) ease,border-color var(--transition-med) ease}
+    html[data-theme="light"] .skill-chip{background:#f3f7ff;border-color:rgba(24,40,72,.10)}
+    .meter{height:8px;background:#0d1220;border-radius:999px;overflow:hidden;border:1px solid rgba(255,255,255,.06)}
+    .meter > span{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--accent-2))}
+    html[data-theme="light"] .meter{background:#e8eefb;border-color:rgba(24,40,72,.12)}
+
+    /* ================= Timeline (with overlap fix) ================= */
+    .timeline{position:relative;padding-left:36px}
+    .timeline::before{
+      content:"";position:absolute;left:16px;top:0;bottom:0;width:2px;
+      background:linear-gradient(180deg,rgba(255,255,255,.12),transparent);
+    }
+    html[data-theme="light"] .timeline::before{
+      background:linear-gradient(180deg,rgba(24,40,72,.18),transparent);
+    }
+    .tl-item{position:relative;margin:16px 0}
+    .tl-item::before{
+      content:"";position:absolute;left:10px;top:12px;width:12px;height:12px;border-radius:50%;
+      background:linear-gradient(90deg,var(--accent),var(--accent-2));
+      box-shadow:0 0 0 4px rgba(124,92,255,.2);
+    }
+    html[data-theme="light"] .tl-item::before{box-shadow:0 0 0 4px rgba(56,218,205,.2)}
+    .tl-title{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap;padding-left:4px}
+    .small{color:var(--muted);font-size:.95rem}
+
+    /* ================= Projects ================= */
+    .project-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:14px}
+    .project{grid-column:span 12}
+    @media(min-width:840px){.project{grid-column:span 6}}
+    .tag{font-size:.85rem;padding:.3rem .6rem;background:#0e1524;border:1px solid rgba(255,255,255,.06);border-radius:999px;color:#c3d2ff}
+    html[data-theme="light"] .tag{background:#ecf3ff;border-color:rgba(24,40,72,.10);color:#4b69c9}
+
+    /* ================= Quotes ================= */
+    .quotes{position:relative}
+    .quote{
+      font-size:clamp(18px,2.4vw,24px);line-height:1.4;
+      padding:18px;border-left:4px solid var(--accent);background:linear-gradient(180deg,rgba(124,92,255,.08),rgba(124,92,255,.02));
+      border-radius:12px;margin:8px 0;color:#e9e9fb
+    }
+    .quote small{display:block;margin-top:6px;color:var(--muted)}
+    html[data-theme="light"] .quote{color:#223; background:linear-gradient(180deg,rgba(56,218,205,.10),rgba(56,218,205,.03))}
+
+    /* ================= Footer ================= */
+    footer{padding:36px 0;color:var(--muted);font-size:.95rem}
+    .links-row{display:flex;gap:12px;flex-wrap:wrap}
+    .link-pill{padding:.5rem .8rem;border-radius:12px;border:1px solid rgba(255,255,255,.08);background:#0e1422}
+    html[data-theme="light"] .link-pill{background:#f2f6ff;border-color:rgba(24,40,72,.10)}
+    .muted{color:var(--muted)}
+
+    /* ================= Chips & Buttons ================= */
+    .chip{display:inline-flex;align-items:center;gap:8px;padding:.4rem .7rem;border-radius:10px;background:#0f1525;border:1px solid rgba(255,255,255,.06)}
+    html[data-theme="light"] .chip{background:#eff4ff;border-color:rgba(24,40,72,.10)}
+
+    /* ================= Responsive ================= */
+    @media(max-width:720px){ .skill-card{grid-column:span 12} }
+
+    /* ================= Subtle Entrances ================= */
+    .reveal{opacity:0;transform:translateY(12px);transition:opacity .6s ease, transform .6s ease}
+    .reveal.show{opacity:1;transform:none}
+
+    /* ================= Floating Theme Toggle ================= */
+    .theme-toggle{
+      position:fixed; right:18px; top:18px; z-index:60;
+      display:flex; align-items:center; gap:10px;
+      background:linear-gradient(180deg,var(--panel),var(--panel-2));
+      border:1px solid rgba(255,255,255,.06);
+      border-radius:999px; padding:.5rem .8rem; box-shadow:var(--shadow);
+      transition: background var(--transition-med) ease, transform .2s ease;
+      user-select:none;
+    }
+    .theme-toggle:hover{transform:translateY(-2px)}
+    .theme-toggle .dot{width:10px;height:10px;border-radius:50%;background:linear-gradient(90deg,var(--accent),var(--accent-2))}
+    .theme-toggle button{background:transparent;border:none;color:var(--text);font-weight:600}
+
+    /* ================= Particles Layer ================= */
+    #particles{
+      position:fixed; inset:0; z-index:0; pointer-events:none; opacity:.65;
+      transition: opacity var(--transition-med) ease;
+    }
+    html[data-theme="light"] #particles{opacity:.5}
+
+    /* ================= Floating 3D Shapes ================= */
+    .float-scene{
+      position:fixed; inset:0; pointer-events:none; z-index:1;
+    }
+    .float-shape{
+      position:absolute; width:18px; height:18px; border-radius:6px;
+      background:conic-gradient(from 180deg,var(--accent),var(--accent-2));
+      filter: drop-shadow(0 8px 16px rgba(0,0,0,.35));
+      opacity:.9; transform: translateZ(0);
+      transition: filter var(--transition-med) ease, opacity var(--transition-med) ease;
+    }
+    html[data-theme="light"] .float-shape{filter: drop-shadow(0 6px 10px rgba(24,40,72,.15)); opacity:.7}
+  </style>
+</head>
+<body>
+
+  <!-- ===== PARTICLES BACKDROP ===== -->
+  <div id="particles"></div>
+
+  <!-- ===== FLOATING 3D SHAPES (GSAP) ===== -->
+  <div class="float-scene" aria-hidden="true">
+    <div class="float-shape" style="left:6%; top:18%"></div>
+    <div class="float-shape" style="left:78%; top:26%"></div>
+    <div class="float-shape" style="left:18%; top:72%"></div>
+    <div class="float-shape" style="left:66%; top:68%"></div>
+    <div class="float-shape" style="left:42%; top:38%"></div>
+  </div>
+
+  <!-- ===== NAVBAR ===== -->
+  <div class="nav">
+    <div class="container nav-inner">
+      <div class="brand">
+        <div class="logo" aria-hidden="true"></div>
+        <div class="brand-info">
+          <span class="brand-name">Portfolio • <span class="gradient" id="userName">Anupam Mishra</span></span>
+          <div class="brand-links">
+            <a id="navLinkedIn" href="#" target="_blank" rel="noopener">LinkedIn</a> •
+            <a id="navGitHub" href="#" target="_blank" rel="noopener">GitHub</a>
+          </div>
+        </div>
+      </div>
+      <div class="links">
+        <a href="#about" class="btn ghost">About</a>
+        <a href="#skills" class="btn ghost">Skills</a>
+        <a href="#experience" class="btn ghost">Experience</a>
+        <a href="#projects" class="btn ghost">Projects</a>
+        <a href="#certs" class="btn ghost">Certifications</a>
+        <a href="#learnings" class="btn ghost">Learnings</a>
+        <a href="#contact" class="btn">LinkedIn & GitHub</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Floating Theme Toggle -->
+  <div class="theme-toggle" id="themeToggle" role="button" aria-label="Toggle color theme">
+    <span class="dot" aria-hidden="true"></span>
+    <button id="toggleBtn">Dark</button>
+  </div>
+
+  <!-- ===== HERO ===== -->
+  <header class="hero container stack">
+    <span class="badge reveal"><span class="dot"></span> Warm • Insightful • Growth-oriented</span>
+    <h1 class="title reveal">Hi, I’m <span class="gradient" id="heroName">Anupam Mishra</span> — building value at the intersection of <em>HR + AI</em>.</h1>
+    <p class="subtitle reveal" data-aos="fade-up">
+      Prompt Engineer & HR Trainee focused on practical automation, clean data, and human-centred outcomes.
+      I love turning ambiguity into simple, useful tools.
+    </p>
+    <div class="row reveal" data-aos="zoom-in">
+      <span class="pill">Resume-ready</span>
+      <span class="pill">Dark • Light • Pastel</span>
+      <span class="pill">No personal contacts displayed</span>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <!-- ===== ABOUT ===== -->
+    <section id="about" class="stack">
+      <h2 class="reveal" data-aos="fade-right">About Me</h2>
+      <p class="section-lead reveal" data-aos="fade-right" data-aos-delay="80">
+        I’m pursuing an MBA in <strong>Human Resource Management & International Business</strong> and hold a <strong>BCA</strong>.
+        I design prompts and small automations that make teams faster and insights clearer.
+        I’m curious, reliable, and always shipping small improvements.
+      </p>
+
+      <div class="row reveal" data-aos="fade-up" data-aos-delay="120">
+        <span class="chip">MBA (HR & IB) — <span class="muted" id="eduMBA">Expected 2026</span></span>
+        <span class="chip">BCA — <span class="muted">2019–2022</span></span>
+        <span class="chip">Generative AI (Udemy) — <span class="muted">2024</span></span>
+        <span class="chip">Equity Markets (IIMB) — <span class="muted">2024</span></span>
+      </div>
+    </section>
+
+    <!-- ===== QUOTES ===== -->
+    <section class="stack quotes" aria-label="Inspiring Quotes">
+      <h2 class="reveal" data-aos="fade-right">Ideas I work by</h2>
+      <div class="quote reveal" data-aos="fade-up">“Your future is created by what you do today, not tomorrow.” <small>— Anonymous</small></div>
+      <div class="quote reveal" data-aos="fade-up" data-aos-delay="70">“Strive not to be a success, but rather to be of value.” <small>— Albert Einstein</small></div>
+      <div class="quote reveal" data-aos="fade-up" data-aos-delay="140">“Dream big. Start small. Act now.” <small>— Anonymous</small></div>
+      <div class="quote reveal" data-aos="fade-up" data-aos-delay="210">“Make it simple. Make it useful. Make it shipped.” <small>— Workshop Note</small></div>
+    </section>
+
+    <!-- ===== SKILLS ===== -->
+    <section id="skills" class="stack">
+      <h2 class="reveal" data-aos="fade-right">Skills</h2>
+      <p class="section-lead reveal" data-aos="fade-right" data-aos-delay="80">A blend of hard, soft, and tool-based skills — tuned for HR ops, data hygiene, and AI-assisted workflows.</p>
+      <div class="skills-grid">
+
+        <!-- Hard Skills -->
+        <div class="card skill-card reveal" data-aos="zoom-in">
+          <h3>Hard Skills</h3>
+          <div class="skill-list" id="hardSkills"></div>
+          <div class="stack" style="margin-top:10px">
+            <div>
+              <div class="small">Prompt Engineering</div>
+              <div class="meter"><span style="width:82%"></span></div>
+            </div>
+            <div>
+              <div class="small">HRIS Data Management</div>
+              <div class="meter"><span style="width:78%"></span></div>
+            </div>
+            <div>
+              <div class="small">TradingView Pine Script (basis for projects)</div>
+              <div class="meter"><span style="width:65%"></span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Soft Skills -->
+        <div class="card skill-card reveal" data-aos="zoom-in" data-aos-delay="60">
+          <h3>Soft Skills</h3>
+          <div class="skill-list" id="softSkills"></div>
+          <div class="stack" style="margin-top:10px">
+            <div>
+              <div class="small">Communication</div>
+              <div class="meter"><span style="width:88%"></span></div>
+            </div>
+            <div>
+              <div class="small">Problem-Solving</div>
+              <div class="meter"><span style="width:82%"></span></div>
+            </div>
+            <div>
+              <div class="small">Time Management</div>
+              <div class="meter"><span style="width:80%"></span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tools -->
+        <div class="card skill-card reveal" data-aos="zoom-in" data-aos-delay="120">
+          <h3>Tools & Tech</h3>
+          <div class="skill-list" id="tools"></div>
+          <p class="small muted" style="margin-top:10px">I keep lightweight stacks and document everything for easy handover.</p>
+        </div>
+
+        <!-- Focus Areas -->
+        <div class="card skill-card reveal" data-aos="zoom-in" data-aos-delay="180">
+          <h3>Focus Areas</h3>
+          <div class="skill-list">
+            <span class="skill-chip">Onboarding & Induction</span>
+            <span class="skill-chip">Employee Engagement</span>
+            <span class="skill-chip">Data Accuracy Audits</span>
+            <span class="skill-chip">Process Documentation</span>
+            <span class="skill-chip">AI Output Evaluation</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== EXPERIENCE ===== -->
+    <section id="experience" class="stack">
+      <h2 class="reveal" data-aos="fade-right">Experience</h2>
+
+      <div class="card reveal" data-aos="fade-up">
+        <div class="timeline">
+          <!-- IFFCO -->
+          <div class="tl-item">
+            <div class="tl-title">
+              <strong>HR Trainee — IFFCO</strong>
+              <span class="small">Jul 2025 – Present • India</span>
+            </div>
+            <ul class="small">
+              <li>Supported onboarding & HRIS entry for <strong>20+ new hires</strong>; ensured <strong>100% compliance</strong>.</li>
+              <li>Assisted <strong>3+ engagement activities/month</strong>, lifting participation by ~<strong>15%</strong>.</li>
+              <li>Coordinated induction & trainings; reduced onboarding delays by ~<strong>10%</strong>.</li>
+              <li>Handled <strong>5–8 HR queries/day</strong> and shipped monthly HR reports with <strong>zero data errors</strong>.</li>
+            </ul>
+          </div>
+
+          <!-- Freelance Prompt -->
+          <div class="tl-item">
+            <div class="tl-title">
+              <strong>Prompt Engineer — Freelance</strong>
+              <span class="small">Aug 2025 – Present • Remote</span>
+            </div>
+            <ul class="small">
+              <li>Iterated on <strong>50+ prompt variants</strong>, improving output quality by ~<strong>15–20%</strong>.</li>
+              <li>Benchmarked across <strong>3 major AI tools</strong> and built a personal <strong>20+ page</strong> playbook.</li>
+              <li>Applied frameworks to HR, support, and e-learning use cases; documented reusable patterns.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== PROJECTS ===== -->
+    <section id="projects" class="stack">
+      <h2 class="reveal" data-aos="fade-right">Projects</h2>
+      <div class="project-grid">
+
+        <article class="card project reveal" data-aos="fade-up">
+          <div class="row" style="justify-content:space-between;align-items:flex-start">
+            <h3 style="margin:0">Custom AI-Powered Stock & Crypto Screener <span class="small muted"> (Demo • 2025)</span></h3>
+            <div class="row">
+              <span class="tag">TradingView</span>
+              <span class="tag">Pine Script</span>
+              <span class="tag">ChatGPT</span>
+              <span class="tag">Perplexity</span>
+              <span class="tag">Claude</span>
+            </div>
+          </div>
+          <ul class="small" style="margin-top:10px">
+            <li>Built a unified screener to avoid juggling paid tools for custom parameters and timely insights.</li>
+            <li>Integrated stock search, analyst-style fundamentals, buy/sell signals, heat map for indices, news feed, and top-4 crypto tracking.</li>
+            <li><strong>Released a demo on GitHub</strong>, helping traders analyze markets efficiently without subscription costs.</li>
+          </ul>
+          <div class="row">
+            <a id="projLink" class="btn" href="#" target="_blank" rel="noopener">View Code</a>
+            <a class="btn ghost" href="#contact">More Projects</a>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- ===== CERTIFICATIONS ===== -->
+    <section id="certs" class="stack">
+      <h2 class="reveal" data-aos="fade-right">Certifications</h2>
+      <div class="card reveal" data-aos="fade-up">
+        <ul class="small">
+          <li><strong>Generative AI Foundation</strong> — Udemy (2024)</li>
+          <li><strong>Introduction to Equity Markets</strong> — IIM Bangalore (2024)</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ===== LEARNINGS & ACHIEVEMENTS ===== -->
+    <section id="learnings" class="stack">
+      <h2 class="reveal" data-aos="fade-right">Learning & Achievements</h2>
+      <div class="card reveal" data-aos="fade-up">
+        <ul class="small">
+          <li>First Prize — Discipline Award (2022)</li>
+          <li>Consistent documentation habit; maintain clean iteration logs and lightweight SOPs.</li>
+          <li>Active learner — small daily reps over big sporadic pushes.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ===== CONTACT / LINKS (no personal details) ===== -->
+    <section id="contact" class="stack">
+      <h2 class="reveal" data-aos="fade-right">Links</h2>
+      <div class="card reveal" data-aos="fade-up">
+        <div class="row links-row">
+          <a class="link-pill" id="lnkLinkedIn" href="#" target="_blank" rel="noopener" aria-label="LinkedIn">LinkedIn</a>
+          <a class="link-pill" id="lnkGitHub" href="#" target="_blank" rel="noopener" aria-label="GitHub">GitHub</a>
+          <span class="link-pill" title="Hidden for privacy">📞 Phone: ••••-•••-••••</span>
+          <span class="link-pill" title="Hidden for privacy">✉️ Email: hidden@privacy</span>
+        </div>
+        <p class="small muted" style="margin-top:12px">
+          Your contact details are intentionally hidden. You can unmask them by editing this section in the code later.
+        </p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="container">
+    <div class="row" style="justify-content:space-between">
+      <div>© <span id="year"></span> <span id="footerName">Anupam Mishra</span>. Built with care and curiosity.</div>
+      <div class="kbd">Press <kbd>G</kbd> to jump to Projects • <kbd>T</kbd> to scroll Top</div>
+    </div>
+  </footer>
+
+  <!-- GSAP + AOS + Particles.js (CDNs for hosting) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js" defer></script>
+
+  <script>
+    /* ============================================================
+       CONFIG — Edit this block with your real data.
+       Personal phone/email remain masked.
+    ============================================================ */
+    const PROFILE = {
+      name: "Anupam Mishra",
+      roleLine: "Prompt Engineer & HR Trainee",
+      linkedin: "https://linkedin.com/in/anupam-mishra",      // <-- update to your actual profile URL
+      github:   "https://github.com/your-github",              // <-- update to your actual GitHub
+      projectCode: "https://github.com/your-github/custom-screener",
+      mbaGraduation: "2026 (Expected)",
+      hardSkills: [
+        "Prompt Engineering","HRIS Data Management","Employee Onboarding",
+        "Employee Engagement Programs","Data Accuracy Auditing",
+        "Process Documentation","Stock Market Analysis",
+        "Screener Development","TradingView Pine Script","AI Output Evaluation"
+      ],
+      softSkills: [
+        "Communication","Problem-Solving","Time Management",
+        "Teamwork","Adaptability","Analytical Thinking","Attention to Detail"
+      ],
+      tools: [
+        "MS Excel","Google Workspace","HRIS Platforms",
+        "ChatGPT","Perplexity AI","Claude AI","TradingView","GitHub"
+      ]
+    };
+
+    /* ============================================================
+       Helpers & Data Binding
+    ============================================================ */
+    const $ = (s, d=document) => d.querySelector(s);
+    const $$ = (s, d=document) => Array.from(d.querySelectorAll(s));
+
+    // Inject basic profile data
+    function bindProfile(){
+      $("#userName").textContent = PROFILE.name;
+      $("#heroName").textContent = PROFILE.name;
+      $("#footerName").textContent = PROFILE.name;
+      $("#year").textContent = new Date().getFullYear();
+
+      // Navbar mini links under name
+      $("#navLinkedIn").href = PROFILE.linkedin || "#";
+      $("#navGitHub").href = PROFILE.github || "#";
+
+      // Links section
+      $("#lnkLinkedIn").href = PROFILE.linkedin || "#";
+      $("#lnkGitHub").href   = PROFILE.github   || "#";
+
+      // Projects link
+      $("#projLink").href    = PROFILE.projectCode || "#";
+      $("#eduMBA").textContent = PROFILE.mbaGraduation;
+
+      // Render skill chips
+      const renderChips = (sel, items)=>{
+        const c = $(sel);
+        c.innerHTML = "";
+        items.forEach(txt=>{
+          const el = document.createElement("span");
+          el.className = "skill-chip"; el.textContent = txt;
+          c.appendChild(el);
+        });
+      };
+      renderChips("#hardSkills", PROFILE.hardSkills);
+      renderChips("#softSkills", PROFILE.softSkills);
+      renderChips("#tools", PROFILE.tools);
+    }
+
+    /* ============================================================
+       Scroll Reveal (IntersectionObserver) — fallback to AOS
+    ============================================================ */
+    function ioReveal(){
+      const io = new IntersectionObserver((entries)=>{
+        entries.forEach(entry=>{
+          if(entry.isIntersecting){
+            entry.target.classList.add("show");
+            io.unobserve(entry.target);
+          }
+        });
+      }, {threshold:.12});
+      $$(".reveal").forEach(el=>io.observe(el));
+    }
+
+    /* ============================================================
+       AOS (scroll animations)
+    ============================================================ */
+    function initAOS(){
+      if (window.AOS) AOS.init({ duration: 700, easing: "ease-out-quart", once: true, offset: 60 });
+    }
+
+    /* ============================================================
+       Particles.js Themes
+    ============================================================ */
+    const particlesDark = {
+      particles: {
+        number: { value: 60, density: { enable:true, value_area: 900 } },
+        color: { value: ["#7c5cff","#00e0ff"] },
+        shape: { type: "circle" },
+        opacity: { value: 0.25 },
+        size: { value: 3, random: true },
+        line_linked: { enable: true, distance: 130, color: "#6aa0ff", opacity: 0.2, width: 1 },
+        move: { enable: true, speed: 1.2, direction: "none", out_mode: "out" }
+      },
+      interactivity: {
+        detect_on: "window",
+        events: { onhover: { enable:true, mode: "grab" }, onclick: { enable:false }, resize:true },
+        modes: { grab: { distance: 160, line_linked: { opacity: 0.35 } } }
+      },
+      retina_detect: true
+    };
+
+    const particlesLight = {
+      particles: {
+        number: { value: 50, density: { enable:true, value_area: 1000 } },
+        color: { value: ["#38dacd","#6aa8ff"] },
+        shape: { type: "circle" },
+        opacity: { value: 0.18 },
+        size: { value: 3, random: true },
+        line_linked: { enable: true, distance: 140, color: "#a9c7ff", opacity: 0.25, width: 1 },
+        move: { enable: true, speed: 1.0, direction: "none", out_mode: "out" }
+      },
+      interactivity: {
+        detect_on: "window",
+        events: { onhover: { enable:true, mode: "grab" }, onclick: { enable:false }, resize:true },
+        modes: { grab: { distance: 150, line_linked: { opacity: 0.3 } } }
+      },
+      retina_detect: true
+    };
+
+    let particlesLoaded = false;
+    function initParticles(theme="dark"){
+      if (!window.particlesJS){ return; }
+      particlesJS("particles", theme==="dark" ? particlesDark : particlesLight);
+      particlesLoaded = true;
+    }
+
+    /* ============================================================
+       GSAP Floating 3D Shapes
+    ============================================================ */
+    function animateShapes(mode="dark"){
+      if (!window.gsap) return;
+      const shapes = $$(".float-shape");
+      // Clear existing tweens
+      shapes.forEach(s => gsap.killTweensOf(s));
+
+      if(mode==="dark"){
+        shapes.forEach(s=>{
+          gsap.to(s, {
+            duration: gsap.utils.random(6, 9),
+            y: "+=" + gsap.utils.random(-30, 30),
+            x: "+=" + gsap.utils.random(-20, 20),
+            rotation: gsap.utils.random(-20, 20),
+            repeat: -1, yoyo: true, ease: "sine.inOut", delay: gsap.utils.random(0,1.5)
+          });
+        });
+      } else { // light mode — softer, bouncy
+        shapes.forEach(s=>{
+          gsap.to(s, {
+            duration: gsap.utils.random(4.5, 6),
+            y: "+=" + gsap.utils.random(-18, 18),
+            x: "+=" + gsap.utils.random(-14, 14),
+            scale: gsap.utils.random(0.95, 1.08),
+            repeat: -1, yoyo: true, ease: "power1.inOut", delay: gsap.utils.random(0,1.2)
+          });
+        });
+      }
+    }
+
+    /* ============================================================
+       Theme Toggle (Dark default)
+    ============================================================ */
+    const THEMES = { DARK: "dark", LIGHT: "light" };
+    function setTheme(t){
+      document.documentElement.setAttribute("data-theme", t);
+      $("#toggleBtn").textContent = t === THEMES.DARK ? "Dark" : "Light";
+      // Re-init particles palette on theme change
+      if (particlesLoaded){
+        // particles.js doesn't provide a destroy; overwrite canvas
+        $("#particles").innerHTML = "";
+      }
+      initParticles(t);
+      animateShapes(t);
+      // Update meta theme-color for mobile address bar
+      const metaTheme = document.querySelector('meta[name="theme-color"]');
+      metaTheme?.setAttribute("content", t === THEMES.DARK ? "#0b0f17" : "#f7f9fc");
+      // Persist
+      localStorage.setItem("theme", t);
+    }
+
+    function initThemeFromPreference(){
+      const saved = localStorage.getItem("theme");
+      const prefersLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+      const initial = saved || (prefersLight ? THEMES.LIGHT : THEMES.DARK);
+      setTheme(initial);
+    }
+
+    function bindThemeToggle(){
+      $("#themeToggle").addEventListener("click", ()=>{
+        const cur = document.documentElement.getAttribute("data-theme");
+        setTheme(cur === THEMES.DARK ? THEMES.LIGHT : THEMES.DARK);
+      });
+    }
+
+    /* ============================================================
+       Keyboard Shortcuts
+    ============================================================ */
+    function bindShortcuts(){
+      window.addEventListener("keydown", (e)=>{
+        if(e.key.toLowerCase()==="g"){ location.hash="#projects"; }
+        if(e.key.toLowerCase()==="t"){ window.scrollTo({top:0, behavior:"smooth"}); }
+      });
+      // Smooth anchor links
+      $$(".nav a[href^='#']").forEach(a=>{
+        a.addEventListener("click", (e)=>{
+          e.preventDefault();
+          const id = a.getAttribute("href");
+          document.querySelector(id)?.scrollIntoView({behavior:"smooth"});
+        });
+      });
+    }
+
+    /* ============================================================
+       Boot
+    ============================================================ */
+    window.addEventListener("DOMContentLoaded", ()=>{
+      bindProfile();
+      ioReveal();
+      bindShortcuts();
+    });
+
+    window.addEventListener("load", ()=>{
+      initAOS();
+      initThemeFromPreference();
+      bindThemeToggle();
+    });
+  </script>
+</body>
+</html>
